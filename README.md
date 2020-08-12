@@ -47,6 +47,7 @@
 - [x] Fackge 2.0.4.6
 - [x] Fackge 2.0.5.0
 - [x] Fackge 2.0.5.5 Fixs
+- [x] Fackge 2.0.5.6 Fixs
 - [ ] Fackge 2.0.6
 ### 2.0支持什么?
 - [x] 加载自定义名字的插件
