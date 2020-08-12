@@ -1,13 +1,12 @@
 #include <windows.h>
 #include <bits/stdc++.h>
-#define LONLAT "plugin.f"
 #include <thread>
 #include <mutex>
 
 using namespace std;
 
 bool debug = false;
-string version = "2.0.5.5";
+string version = "2.0.5.6";
 
 std::mutex mtx;//处理线程 
 
@@ -35,6 +34,8 @@ bool CanLoad=false;//是否加载
 
 float PluginLoadTime = 0;//插件加载时间 
 string ThreadTask = "start";
+
+const char*LONLAT;
 
 void loadfile();
 void CommandPrintf(int mode,string filenumber);
@@ -156,7 +157,9 @@ void SendCommand(string command,int mode,int line,int end){
 			return;
 		}else if(command=="fload"){
 			thread thrd_1(loadfile);//加载插件移交多线程 
+			thread thrd_2(PluginLoadBefore);
 			thrd_1.join(); 
+			thrd_2.join();
 		}else if (command=="printf"){ 
 			CommandPrintf(1,"666");
 			return;
@@ -340,12 +343,47 @@ void fileprint(string command,int line){
 		istringstream is(str1);
 		is>>str[0]>>str[1]>>str[2];
 		//cout<<"呃呃呃:"<<endl<<str[0]<<endl<<str[1]<<endl<<str[2]<<endl<<endl;
+		
+		for (int i = 0;i<=PVNumber;i++)
+		{
+			bool check1=false;
+			bool check2=false;
+			
+			if (check1==false)
+			{
+			if (str[0]==PVNameCase[i])
+			{
+				IfA=PVCase[i];
+				check1=true;
+			}
+		}
+		
+			if (check2==false)
+			{
+			if (str[2]==PVNameCase[i])
+			{
+				IfB=PVCase[i];
+				check2=true;
+			}
+		}
+			
+			if (i==PVNumber-1)
+			{
+				if (check1==false)
+				IfA=stoi(str[0]);
+				if (check2==false)
+				IfB=stoi(str[2]);
+			}
+			
+		 } 
+		
+		//cout<<endl<<endl<<IfA<<endl<<IfB<<endl<<endl;
+		
 		if(str[1]=="==")
 		{
 			IfLine = line;
 	//		cout<<"第一关检测if是成功语句 记录:"<<IfLine<<endl;
-			IfA=stoi(str[0]);
-			IfB=stoi(str[2]);
+		
 	//		cout<<"[DEBUG]呃呃呃,IFA为"<<IfA<<" IFB为"<<IfB<<endl;
 			if (IfA==IfB)
 			{
@@ -364,8 +402,7 @@ void fileprint(string command,int line){
 		{
 			IfLine = line;
 	//		cout<<"第一关检测if是成功语句 记录:"<<IfLine<<endl;
-			IfA=stoi(str[0]);
-			IfB=stoi(str[2]);
+			
 	//		cout<<"[DEBUG]呃呃呃,IFA为"<<IfA<<" IFB为"<<IfB<<endl;
 			if (IfA>IfB)
 			{
@@ -384,8 +421,7 @@ void fileprint(string command,int line){
 		{
 			IfLine = line;
 	//		cout<<"第一关检测if是成功语句 记录:"<<IfLine<<endl;
-			IfA=stoi(str[0]);
-			IfB=stoi(str[2]);
+		
 	//		cout<<"[DEBUG]呃呃呃,IFA为"<<IfA<<" IFB为"<<IfB<<endl;
 			if (IfA<IfB)
 			{
@@ -429,6 +465,7 @@ void loadfile(void){
 }
   	strcpy(c,filename.c_str());
   
+  LONLAT = c;
   const char *filePath = c;
   ifstream file;
   file.open(filePath,ios::in);
@@ -440,8 +477,6 @@ void loadfile(void){
  
     if (Ifloadfile==true)
     {
-       thread thrd_2(PluginLoadBefore);
-       thrd_2.join();
        std::string strLine;
        int Line = 1;
        while(getline(file,strLine))
@@ -466,6 +501,9 @@ void loadfile(void){
       ThreadTask = "stop";//结束计时器 
       Sleep(100);
       CleanPluginCase();
+}else{
+	ThreadTask="stop";
+	Sleep(100);
 }
 
 }
