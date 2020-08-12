@@ -8,31 +8,31 @@ using namespace std;
 bool debug = false;
 string version = "2.0.5.6";
 
-std::mutex mtx;//´¦ÀíÏß³Ì 
+std::mutex mtx;//å¤„ç†çº¿ç¨‹ 
 
-string CommandManager[10000];//´¢´æÃüÁî 
-string CommandDPT[10000];//´¢´æÃüÁî½âÊÍ 
-int CommandNumber = 0;//×¢²áÃüÁîÊı 
+string CommandManager[10000];//å‚¨å­˜å‘½ä»¤ 
+string CommandDPT[10000];//å‚¨å­˜å‘½ä»¤è§£é‡Š 
+int CommandNumber = 0;//æ³¨å†Œå‘½ä»¤æ•° 
 
-string PVNameCase[10000];//´¢´æ±äÁ¿Ãû×Ö 
-int PVCase[10000];//´¢´æ±äÁ¿Êı¾İ 
-int PVNumber = 0;//×¢²á±äÁ¿ÊıÁ¿ 
-string str[3];//´¦ÀíModÀïÃæ±äÁ¿µÄ¹ØÏµ 
+string PVNameCase[10000];//å‚¨å­˜å˜é‡åå­— 
+int PVCase[10000];//å‚¨å­˜å˜é‡æ•°æ® 
+int PVNumber = 0;//æ³¨å†Œå˜é‡æ•°é‡ 
+string str[3];//å¤„ç†Modé‡Œé¢å˜é‡çš„å…³ç³» 
 
-bool math = false;//mathÄ£¿éÊÇ·ñ¿ªÆô 
-int Math1;//´¦ÀíÔËËã 
-int Math2;//´¦ÀíÔËËã 
+bool math = false;//mathæ¨¡å—æ˜¯å¦å¼€å¯ 
+int Math1;//å¤„ç†è¿ç®— 
+int Math2;//å¤„ç†è¿ç®— 
 
-bool FThread = false; //threadÄ£¿éÊÇ·ñ¿ªÆô 
+bool FThread = false; //threadæ¨¡å—æ˜¯å¦å¼€å¯ 
 
-bool Ifoff=true;//¶ÁÈ¡ÊÇ·ñÔÚifÓï¾äÀïÃæ 
-int IfLine=-10;//´¢´æifÓï¾ä¿ªÊ¼ĞĞÊı 
-int IfA;//Ìõ¼ş 
-int IfB;//Ìõ¼ş 
-bool IfLoad=false;//ÊÇ·ñÔËĞĞif 
-bool CanLoad=false;//ÊÇ·ñ¼ÓÔØ 
+bool Ifoff=true;//è¯»å–æ˜¯å¦åœ¨ifè¯­å¥é‡Œé¢ 
+int IfLine=-10;//å‚¨å­˜ifè¯­å¥å¼€å§‹è¡Œæ•° 
+int IfA;//æ¡ä»¶ 
+int IfB;//æ¡ä»¶ 
+bool IfLoad=false;//æ˜¯å¦è¿è¡Œif 
+bool CanLoad=false;//æ˜¯å¦åŠ è½½ 
 
-float PluginLoadTime = 0;//²å¼ş¼ÓÔØÊ±¼ä 
+float PluginLoadTime = 0;//æ’ä»¶åŠ è½½æ—¶é—´ 
 string ThreadTask = "start";
 
 const char*LONLAT;
@@ -46,16 +46,16 @@ void Math(int mode,char ch,int number1,int number2,int line,string ch2);
 void IsPublicVer(string number1,string number2);
 void PluginLoadBefore();
 
-//×¢²áÃüÁî
+//æ³¨å†Œå‘½ä»¤
 void RigCommand(string command,string depcommand){
 	CommandManager[CommandNumber] = command;
 	CommandDPT[CommandNumber] = depcommand;
 	CommandNumber++;
-	cout<<"[INFO]ÃüÁî"<<command<<"×¢²á³É¹¦!"<<endl; 
+	cout<<"[INFO] å‘½ä»¤"<<command<<"æ³¨å†ŒæˆåŠŸ!"<<endl; 
 } 
 
 
-//´¦Àí²å¼ş½áÊøµÄ±¨¸æ
+//å¤„ç†æ’ä»¶ç»“æŸçš„æŠ¥å‘Š
 void PluginLoadBefore()
 {
 	while(true)
@@ -64,14 +64,14 @@ void PluginLoadBefore()
 	PluginLoadTime = PluginLoadTime+0.001;
 	Sleep(10);
 }else{
-	cout<<"¼ÓÔØÊ±³¤:"<<PluginLoadTime<<endl;
+	cout<<"åŠ è½½æ—¶é•¿: "<<PluginLoadTime<<endl;
 	break;
 }
 	}
 	
 }
 
-//»ñÈ¡²å¼ş×ÜĞĞÊı 
+//è·å–æ’ä»¶æ€»è¡Œæ•° 
 int GetTxtLine(const char *filename)
 {
     FILE *fd;
@@ -93,17 +93,17 @@ int GetTxtLine(const char *filename)
     return count;
 }
 
-//ÌáÊ¾´íÎó:
+//æç¤ºé”™è¯¯:
 void error(string type,string why,int line)
 {
 	cout<<"ERROR: "<<type<<endl;
-	cout<<why<<" ´íÎóĞĞ:"<<line<<endl;
+	cout<<why<<" é”™è¯¯è¡Œ: "<<line<<endl;
  } 
 
-//´¦Àí²å¼şÖ´ĞĞÍêºó
+//å¤„ç†æ’ä»¶æ‰§è¡Œå®Œå
 void CleanPluginCase()
 {
-	math = false;//»¹Ô­ÃüÁî
+	math = false;//è¿˜åŸå‘½ä»¤
 	for (int i = 0;i<=PVNumber;i++)
 	{
 		PVNameCase[i]="";
@@ -120,24 +120,24 @@ void CleanPluginCase()
 	ThreadTask = "start";
 
 	
-	getLogger("²å¼şplugin.fÔËĞĞÍê³É",1);
+	getLogger("æ’ä»¶plugin.fè¿è¡Œå®Œæˆ",1);
  } 
 
 
-//·¢ËÍĞÅÏ¢ 
+//å‘é€ä¿¡æ¯ 
 void getLogger(string info,int type){
 
 	switch(type)
 	{
 		case 1:
-			cout<<"[INFO]"<<info<<endl;
+			cout<<"[INFO] "<<info<<endl;
 			break;
 		case 2:
-			cout<<"[WARING]"<<info<<endl;
+			cout<<"[WARING] "<<info<<endl;
 			break;
 		case 3:
 			if (debug==true)
-			cout<<"[DEBUG]"<<info<<endl;
+			cout<<"[DEBUG] "<<info<<endl;
 			break;
 		default:
 			cout<<">>"<<info<<endl;
@@ -146,17 +146,17 @@ void getLogger(string info,int type){
 	
 }
 
-//Ö´ĞĞ±¾µØcommand
+//æ‰§è¡Œæœ¬åœ°command
 void SendCommand(string command,int mode,int line,int end){
 	if (command=="help"){
 			cout<<"Fackge "<<version<<" Command List ["<<CommandNumber<<"]"<<endl;
 			for (int i=0;i<CommandNumber;i++)
 			{
-				cout<<CommandManager[i]<<"===ÓÃ·¨:"<<CommandDPT[i]<<endl;
+				cout<<CommandManager[i]<<"===ç”¨æ³•: "<<CommandDPT[i]<<endl;
 			}
 			return;
 		}else if(command=="fload"){
-			thread thrd_1(loadfile);//¼ÓÔØ²å¼şÒÆ½»¶àÏß³Ì 
+			thread thrd_1(loadfile);//åŠ è½½æ’ä»¶ç§»äº¤å¤šçº¿ç¨‹ 
 			thread thrd_2(PluginLoadBefore);
 			thrd_1.join(); 
 			thrd_2.join();
@@ -176,7 +176,7 @@ void SendCommand(string command,int mode,int line,int end){
 			{ 
 			if (Ifoff==true)
 			{ 
-			//cout<<"´ËÊ±ifoffÎª"<<Ifoff<<endl; 
+			//cout<<"æ­¤æ—¶ifoffä¸º "<<Ifoff<<endl; 
 			error("Fackge ThreadTask error","This is a void function",line);
 			return;
 			} 
@@ -184,24 +184,24 @@ void SendCommand(string command,int mode,int line,int end){
 		 }
 } 
 
-//Ö´ĞĞ 
+//æ‰§è¡Œ 
 void fileprint(string command,int line){
 	
 
 	
 	if (line==1)
-	getLogger("¼ÓÔØ²å¼ş plugin.f ÖĞ....",1);
+	getLogger("åŠ è½½æ’ä»¶ plugin.f ä¸­....",1);
 	
 	
-	//cout<<"[DEBUG] IFLoad:"<<IfLoad<<endl<<"CanLoad:"<<CanLoad<<endl<<"Ifoff:"<<Ifoff<<endl; 
+	//cout<<"[DEBUG] IFLoad: "<<IfLoad<<endl<<"CanLoad:"<<CanLoad<<endl<<"Ifoff:"<<Ifoff<<endl; 
 	
-	//´¦Àí½øÈëifÓï¾ä 
+	//å¤„ç†è¿›å…¥ifè¯­å¥ 
 	if (line==IfLine+1)
 	{
-	//	 cout<<"¹ş¹ş°¡,ÓÖÖ´ĞĞÁËÎÒ"<<endl;
+	//	 cout<<"å“ˆå“ˆå•Š,åˆæ‰§è¡Œäº†æˆ‘"<<endl;
 		if (command!="{")
 		{
-			error("Fackge CommandManager error","NULL in function thread",line);
+			error("Fackge Command Error","NULL in function thread",line);
 			Ifoff=true;
 			return;
 		}else{
@@ -210,7 +210,7 @@ void fileprint(string command,int line){
 		} 
 	}
 	
-	//´¦Àí½áÊøifÓï¾ä
+	//å¤„ç†ç»“æŸifè¯­å¥
 		if (command=="}")
 			if(line!=GetTxtLine(LONLAT))
 				if(Ifoff==true)
@@ -222,29 +222,29 @@ void fileprint(string command,int line){
 					IfLoad=false;
 					CanLoad=true;
 					IfLine=-10;
-	//				cout<<"³É¹¦½áÊøif"<<endl; 
+	//				cout<<"æˆåŠŸç»“æŸif"<<endl; 
 					return;
 				}
-	//´¦ÀíÒì³£µÄifÓï¾ä
+	//å¤„ç†å¼‚å¸¸çš„ifè¯­å¥
 		if (command=="}"&&line==GetTxtLine(LONLAT)&&Ifoff==false)
 		{
 			error("Fackge ThreadTask error","too few arguments to function Thread",line);
 			return;
 					}			
 				
-	//´¦ÀíIfµÄÔËĞĞ 
+	//å¤„ç†Ifçš„è¿è¡Œ 
 	
 	if (Ifoff==false&&IfLoad==true)
 	{
-	//	cout<<"ÕâÊÇ³ÉÁ¢if"<<endl;
+	//	cout<<"è¿™æ˜¯æˆç«‹if"<<endl;
 		CanLoad=true; 
 	}else if(Ifoff==false&&IfLoad==false)
 	{
-	//	cout<<"²»³ÉÁ¢if ĞĞÊı:"<<line<<endl;
+	//	cout<<"ä¸æˆç«‹if è¡Œæ•°: "<<line<<endl;
 		CanLoad=false;
 	 }else if(Ifoff==true&&IfLoad==false)
 		{
-	//		cout<<"ÆÕÍ¨Óï¾ä"<<endl;
+	//		cout<<"æ™®é€šè¯­å¥"<<endl;
 			CanLoad=true;
 		}else{
 			error("Fackge ThreadTask error","IFLoad Case error",line);
@@ -269,7 +269,7 @@ void fileprint(string command,int line){
 	}else if (command.substr(0,6)=="import"){
 		int end = command.length();
 		string str1 = command.substr(7,end);
-		//cout<<"²¶×½µ½"<<str1<<endl; 
+		//cout<<"æ•æ‰åˆ°"<<str1<<endl; 
 		
 		if(str1=="math")
 		{
@@ -281,7 +281,7 @@ void fileprint(string command,int line){
 	}
 	}else if (command.substr(0,9)=="publicver"&&math==true){
 		int end = command.length();
-		string str1 = command.substr(14,end);//µÚÒ»´Î,È¥µôpublucver
+		string str1 = command.substr(14,end);//ç¬¬ä¸€æ¬¡,å»æ‰publucver
 		string pv;
 		istringstream is(str1);
 		is>>str[0]>>str[1]>>str[2];
@@ -300,7 +300,7 @@ void fileprint(string command,int line){
 		return;
 	}else if (command.substr(0,4)=="math"&&math==true){
 		int end = command.length();
-		int where;//¼ÇÂ¼iÖµ 
+		int where;//è®°å½•iå€¼ 
 		string str1 = command.substr(5,end);
 		string pv;
 		istringstream is(str1);
@@ -337,12 +337,12 @@ void fileprint(string command,int line){
 		
 	}else if (command.substr(0,2)=="if"){
 		//cout<<command.substr(0,2)<<endl;
-		getLogger("ÕâÊÇÒ»¸öÌõ¼şÓï¾ä",3);
+		getLogger("è¿™æ˜¯ä¸€ä¸ªæ¡ä»¶è¯­å¥",3);
 		int end = command.length();
-		string str1 = command.substr(3,end);//ÒÔºó¶¼Òª×¢ÒâÁËßÀßÀßÀ 
+		string str1 = command.substr(3,end);//ä»¥åéƒ½è¦æ³¨æ„äº†å‘ƒå‘ƒå‘ƒ 
 		istringstream is(str1);
 		is>>str[0]>>str[1]>>str[2];
-		//cout<<"ßÀßÀßÀ:"<<endl<<str[0]<<endl<<str[1]<<endl<<str[2]<<endl<<endl;
+		//cout<<"å‘ƒå‘ƒå‘ƒ:"<<endl<<str[0]<<endl<<str[1]<<endl<<str[2]<<endl<<endl;
 		
 		for (int i = 0;i<=PVNumber;i++)
 		{
@@ -382,12 +382,12 @@ void fileprint(string command,int line){
 		if(str[1]=="==")
 		{
 			IfLine = line;
-	//		cout<<"µÚÒ»¹Ø¼ì²âifÊÇ³É¹¦Óï¾ä ¼ÇÂ¼:"<<IfLine<<endl;
+	//		cout<<"ç¬¬ä¸€å…³æ£€æµ‹ifæ˜¯æˆåŠŸè¯­å¥ è®°å½•: "<<IfLine<<endl;
 		
-	//		cout<<"[DEBUG]ßÀßÀßÀ,IFAÎª"<<IfA<<" IFBÎª"<<IfB<<endl;
+	//		cout<<"[DEBUG] å‘ƒå‘ƒå‘ƒ,IFAä¸º"<<IfA<<" IFBä¸º"<<IfB<<endl;
 			if (IfA==IfB)
 			{
-	//			cout<<"IFA==IFB³ÉÁ¢!"<<endl;
+	//			cout<<"IFA==IFBæˆç«‹!"<<endl;
 				IfLoad=true;
 	//			cout<<"IFLOAD==true"<<endl;
 			}else
@@ -401,12 +401,12 @@ void fileprint(string command,int line){
 				if(str[1]==">")
 		{
 			IfLine = line;
-	//		cout<<"µÚÒ»¹Ø¼ì²âifÊÇ³É¹¦Óï¾ä ¼ÇÂ¼:"<<IfLine<<endl;
+	//		cout<<"ç¬¬ä¸€å…³æ£€æµ‹ifæ˜¯æˆåŠŸè¯­å¥ è®°å½•: "<<IfLine<<endl;
 			
-	//		cout<<"[DEBUG]ßÀßÀßÀ,IFAÎª"<<IfA<<" IFBÎª"<<IfB<<endl;
+	//		cout<<"[DEBUG] å‘ƒå‘ƒå‘ƒ,IFAä¸º"<<IfA<<" IFBä¸º"<<IfB<<endl;
 			if (IfA>IfB)
 			{
-	//			cout<<"IFA==IFB³ÉÁ¢!"<<endl;
+	//			cout<<"IFA==IFBæˆç«‹!"<<endl;
 				IfLoad=true;
 	//			cout<<"IFLOAD==true"<<endl;
 			}else
@@ -420,12 +420,12 @@ void fileprint(string command,int line){
 				if(str[1]=="<")
 		{
 			IfLine = line;
-	//		cout<<"µÚÒ»¹Ø¼ì²âifÊÇ³É¹¦Óï¾ä ¼ÇÂ¼:"<<IfLine<<endl;
+	//		cout<<"ç¬¬ä¸€å…³æ£€æµ‹ifæ˜¯æˆåŠŸè¯­å¥ è®°å½•: "<<IfLine<<endl;
 		
-	//		cout<<"[DEBUG]ßÀßÀßÀ,IFAÎª"<<IfA<<" IFBÎª"<<IfB<<endl;
+	//		cout<<"[DEBUG] å‘ƒå‘ƒå‘ƒ,IFAä¸º"<<IfA<<" IFBä¸º"<<IfB<<endl;
 			if (IfA<IfB)
 			{
-	//			cout<<"IFA==IFB³ÉÁ¢!"<<endl;
+	//			cout<<"IFA==IFBæˆç«‹!"<<endl;
 				IfLoad=true;
 	//			cout<<"IFLOAD==true"<<endl;
 			}else
@@ -445,7 +445,7 @@ void fileprint(string command,int line){
 }
 }
 
-//¼ÓÔØ 
+//åŠ è½½ 
 void loadfile(void){
 	char c[20];
 	bool Ifloadfile = true; 
@@ -471,7 +471,7 @@ void loadfile(void){
   file.open(filePath,ios::in);
  
   if(!file.is_open()){
- 		getLogger("ÎŞ·¨ÕÒµ½ ²å¼şÎÄ¼ş ËùÒÔ¼ÓÔØÊ§°Ü",2);
+ 		getLogger("Faild to Load Plugin (No such File)",2);
         Ifloadfile = false;
     }
  
@@ -498,7 +498,7 @@ void loadfile(void){
 			str[2]="";
 			
        } 
-      ThreadTask = "stop";//½áÊø¼ÆÊ±Æ÷ 
+      ThreadTask = "stop";//ç»“æŸè®¡æ—¶å™¨ 
       Sleep(100);
       CleanPluginCase();
 }else{
@@ -508,14 +508,14 @@ void loadfile(void){
 
 }
 
-//ÅäÖÃÎÄ¼ş
+//é…ç½®æ–‡ä»¶
 void loadconfig(void){
 	  const char *filePath = "fackge.setting";
   ifstream file;
   file.open(filePath,ios::in);
  
   if(!file.is_open()){
- 		error("Fackge Enable loadconfig","¼ÓÔØfackge.settingÊ±³öÏÖÎ´Öª´íÎó",109);
+ 		error("Fackge Enable loadconfig","åŠ è½½fackge.settingæ—¶å‡ºç°æœªçŸ¥é”™è¯¯",109);
         return; 
     }
  
@@ -529,12 +529,12 @@ void loadconfig(void){
                 continue;
  
             //cout<<strLine <<endl;     
-			if (line==1&&strLine=="¿ª·¢ÕßÄ£Ê½:true")
+			if (line==1&&strLine=="å¼€å‘è€…æ¨¡å¼:true")
 			{
-				getLogger("¿ª·¢ÕßÄ£Ê½ÒÑ¿ªÆô",1); 
+				getLogger("å¼€å‘è€…æ¨¡å¼å·²å¼€å¯",1); 
 				debug=true; 
 			}else{
-				getLogger("¿ª·¢ÕßÄ£Ê½ÒÑ¹Ø±Õ",1);
+				getLogger("å¼€å‘è€…æ¨¡å¼å·²å…³é—­",1);
 				debug=false;
 			}
        }
@@ -567,8 +567,8 @@ void CommandPrintf(int mode,string filenumber){
 		{
 			if (filenumber==PVNameCase[i])
 			{
-				//cout<<"²¶×½µ½PVNAMECASEÖµÎª"<<PVCase[i]<<endl; 
-				//cout<<"IÖµ:"<<i<<endl;
+				//cout<<"æ•æ‰åˆ°PVNAMECASEå€¼ä¸º"<<PVCase[i]<<endl; 
+				//cout<<"Iå€¼: "<<i<<endl;
 				a = PVCase[i-1];
 				cout<<">>"<<a<<endl;
 				return;
@@ -646,7 +646,7 @@ void IsPublicVer(string number1,string number2)
 	return;
 }
 
-//Âß¼­ÔËËã 
+//é€»è¾‘è¿ç®— 
 void Math(int mode,char ch,int n1,int n2,int line,string ch2)
 {
 	string number1,number2;
@@ -734,7 +734,7 @@ void PublicVer(int mode,string str1,int str2)
 			cin>>PVNameCase[PVNumber];
 			cin>>quic;
 			cin>>PVCase[PVNumber];
-			getLogger("´´½¨±äÁ¿³É¹¦!",3);
+			getLogger("åˆ›å»ºå˜é‡æˆåŠŸ!",3);
 			PVNumber++;
 			return;
 		}else{
@@ -745,8 +745,8 @@ void PublicVer(int mode,string str1,int str2)
 		PVNameCase[PVNumber] = str1;
 		PVCase[PVNumber] = str2;
 		
-			//cout<<"³É¹¦°Ñ"<<PVNameCase[PVNumber]<<"¶¨Òå³É"<<PVCase[PVNumber]; 
-	//	cout<<"NumberÊÇ"<<PVNumber<<endl; 
+			//cout<<"æˆåŠŸæŠŠ"<<PVNameCase[PVNumber]<<"å®šä¹‰æˆ"<<PVCase[PVNumber]; 
+	//	cout<<"Numberæ˜¯"<<PVNumber<<endl; 
 		
 		PVNumber++;
 		return;
@@ -759,22 +759,22 @@ void PublicVer(int mode,string str1,int str2)
 int main()
 {
 	Sleep(1000);
-	getLogger("¿ªÊ¼¼ÓÔØFackge",1);
-	getLogger("³õÊ¼»¯CommandManager³É¹¦!",1); 
+	getLogger("å¼€å§‹åŠ è½½Fackge",1);
+	getLogger("åˆå§‹åŒ–CommandManageræˆåŠŸ!",1); 
 	string command;
 	bool find = false;
 	
 	
-	//×¢²áÃüÁî 
+	//æ³¨å†Œå‘½ä»¤ 
 	try{
 		
 		
-		RigCommand("help","²éÑ¯ËùÓĞÃüÁîºÍ°ïÖú");
-		RigCommand("fload","ÔËĞĞ.f½Å±¾ÎÄ¼ş");
-		RigCommand("printf","´òÓ¡Êı¾İ");
-		RigCommand("import","µ÷ÓÃÄÚ²¿Ä£¿é");
-		RigCommand("publicver","¶¨ÒåÒ»¸ö¹²ÓĞ³ÉÔ±±äÁ¿");
-		RigCommand("math","Âß¼­ÔËËã");
+		RigCommand("help","æŸ¥è¯¢æ‰€æœ‰å‘½ä»¤å’Œå¸®åŠ©");
+		RigCommand("fload","è¿è¡Œ.fè„šæœ¬æ–‡ä»¶");
+		RigCommand("printf","æ‰“å°æ•°æ®");
+		RigCommand("import","è°ƒç”¨å†…éƒ¨æ¨¡å—");
+		RigCommand("publicver","å®šä¹‰ä¸€ä¸ªå…±æœ‰æˆå‘˜å˜é‡");
+		RigCommand("math","é€»è¾‘è¿ç®—");
 	
 	}catch(string){
 		throw 0;
@@ -788,19 +788,19 @@ int main()
 	ofstream inFile; 
 	inFile.open("fackge.setting");
 	if(inFile.is_open())
-	inFile<<"¿ª·¢ÕßÄ£Ê½:true"<<endl;
+	inFile<<"å¼€å‘è€…æ¨¡å¼: true"<<endl;
 	inFile.close();
-	getLogger("³õÊ¼»¯ÅäÖÃÎÄ¼ş³É¹¦!",1);
+	getLogger("åˆå§‹åŒ–é…ç½®æ–‡ä»¶æˆåŠŸ!",1);
 	}else{
-	//cout<<"¼ì²âµ½ÅäÖÃÎÄ¼şÒÑ´æÔÚ"<<endl;
-	getLogger("ÅäÖÃÎÄ¼şÒÑ´æÔÚ!",1);
+	//cout<<"æ£€æµ‹åˆ°é…ç½®æ–‡ä»¶å·²å­˜åœ¨"<<endl;
+	getLogger("é…ç½®æ–‡ä»¶å·²å­˜åœ¨!",1);
 	}
 	
-	getLogger("¿ªÊ¼¼ÓÔØÅäÖÃÎÄ¼ş",1);
+	getLogger("å¼€å§‹åŠ è½½é…ç½®æ–‡ä»¶",1);
 	loadconfig();
 	
-	cout<<"[INFO]µ±Ç°¿ª·¢ÕßÄ£Ê½Îª:"<<debug<<endl;
-	getLogger("¼ÓÔØÍê³É",1);
+	cout<<"[INFO]å½“å‰å¼€å‘è€…æ¨¡å¼ä¸º:"<<debug<<endl;
+	getLogger("åŠ è½½å®Œæˆ",1);
 	
 	main:
 		cout<<"Fakcge>>";
@@ -812,7 +812,7 @@ int main()
 		{
 			if (command==CommandManager[i]){
 				find = true;
-				getLogger("ÕÒµ½ÁË",3);
+				getLogger("æ‰¾åˆ°äº†",3);
 				i=10000;
 			}
 		}
