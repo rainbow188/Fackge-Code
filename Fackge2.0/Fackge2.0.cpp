@@ -7,7 +7,7 @@
 using namespace std;
 
 bool debug = false;
-string version = "2.0.5.0";
+string version = "2.0.5.5";
 
 std::mutex mtx;//处理线程 
 
@@ -156,9 +156,7 @@ void SendCommand(string command,int mode,int line,int end){
 			return;
 		}else if(command=="fload"){
 			thread thrd_1(loadfile);//加载插件移交多线程 
-			thread thrd_2(PluginLoadBefore);
-			thrd_1.join();
-			thrd_2.join(); 
+			thrd_1.join(); 
 		}else if (command=="printf"){ 
 			CommandPrintf(1,"666");
 			return;
@@ -414,6 +412,7 @@ void fileprint(string command,int line){
 //加载 
 void loadfile(void){
 	char c[20];
+	bool Ifloadfile = true; 
 	string filename;
 	cin>>filename;
 	int end = filename.length();
@@ -422,11 +421,11 @@ void loadfile(void){
 	if (filename.substr(end-2,end)!=".f")
 	{
 		error("Fakcge ThreadTask error","Only can run fackge plugin(.f) file",0);
-		return;
+		Ifloadfile = false;
 	 } 
 }else{
 	error("Fackge ThreadTask error","Fackge plugin file name lengh must > 3",0);
-	return;
+	Ifloadfile = false;
 }
   	strcpy(c,filename.c_str());
   
@@ -436,10 +435,13 @@ void loadfile(void){
  
   if(!file.is_open()){
  		getLogger("无法找到 插件文件 所以加载失败",2);
-        return; 
+        Ifloadfile = false;
     }
  
-    
+    if (Ifloadfile==true)
+    {
+       thread thrd_2(PluginLoadBefore);
+       thrd_2.join();
        std::string strLine;
        int Line = 1;
        while(getline(file,strLine))
@@ -464,7 +466,8 @@ void loadfile(void){
       ThreadTask = "stop";//结束计时器 
       Sleep(100);
       CleanPluginCase();
-	 
+}
+
 }
 
 //配置文件
