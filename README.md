@@ -4,9 +4,11 @@
 ## 怎么使用fackge?
 下载我们的编译文件,双击运行.
 ### 对Windows用户
-下载我们的exe可执行文件使用
+下载Fackge.exe双击运行即可
+或者下载我们的Fackge.cpp
+自行编译文件
 ### 对Linux用户
-下载我们的源码进行编译
+下载我们的Fackge Linux进行编译
 ## Fackgec1.0 开发版
 ### Fakcge F-- 1.0
 - [x] Fackge 1.0.2
