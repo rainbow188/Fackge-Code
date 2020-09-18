@@ -59,6 +59,10 @@
 - [x] 个性化配置文件
 - [x] 开发者模式
 - [x] 抛出脚本错误
+
+### Fackge3.0 -JAVA 8
+我们使用JAVA8重写了Fackge,Fackge3即将上线!
+
 ## Fackge Plugin
 在Fackge2.0中,使用命令fload +脚本名字即可运行你的fackge插件
 下面将对语法进行详细介绍.
